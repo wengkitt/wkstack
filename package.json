@@ -14,7 +14,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup src/index.ts --format esm --clean",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
   },
   "dependencies": {
     "fs-extra": "^11.3.6",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^26.1.0",
     "oxfmt": "^0.57.0",
+    "oxlint": "^1.72.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3"
   },
