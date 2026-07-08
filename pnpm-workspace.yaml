@@ -1,2 +1,5 @@
+packages:
+  - 'templates/*'
+
 allowBuilds:
   esbuild: true
