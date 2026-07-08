@@ -1,34 +1,148 @@
-# React + TypeScript + Vite
+# react-spa
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern React SPA template for [wkstack](https://github.com/wengkitt/wkstack). Pre-configured with the TanStack ecosystem, Tailwind CSS v4, shadcn/ui, and best-in-class tooling.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Tool                                                                                                            | Purpose                                                           |
+| --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [React 19](https://react.dev)                                                                                   | UI library with compiler, actions, and server components          |
+| [TypeScript 6](https://www.typescriptlang.org)                                                                  | Type safety and developer experience                              |
+| [Vite 8](https://vite.dev)                                                                                      | Build tool and dev server with instant HMR                        |
+| [Tailwind CSS v4](https://tailwindcss.com)                                                                      | Utility-first CSS with CSS-first configuration                    |
+| [TanStack Router](https://tanstack.com/router)                                                                  | File-based routing with type-safe links and auto code-splitting   |
+| [TanStack Query](https://tanstack.com/query)                                                                    | Server state management (caching, refetching, optimistic updates) |
+| [TanStack Form](https://tanstack.com/form)                                                                      | Type-safe form management with Zod validation                     |
+| [Zustand](https://zustand-demo.pmnd.rs)                                                                         | Lightweight client-state management with persist middleware       |
+| [shadcn/ui](https://ui.shadcn.com)                                                                              | Component library built on @base-ui/react (base-nova style)       |
+| [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) + [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) | Rust-based linting and formatting                                 |
+| [React Compiler](https://react.dev/learn/react-compiler)                                                        | Automatic memoization via Babel plugin                            |
+| [lucide-react](https://lucide.dev)                                                                              | Icon library                                                      |
+| [Geist](https://vercel.com/font)                                                                                | Typography via @fontsource-variable                               |
 
-## React Compiler
+## Getting Started
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+```bash
+# Install dependencies
+npm install
 
-Note: This will impact Vite dev & build performances.
+# Start development server
+npm run dev
 
-## Expanding the Oxlint configuration
+# Build for production
+npm run build
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+# Preview production build
+npm run preview
+```
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+## Project Structure
+
+```
+src/
+├── components/       # Shared components
+│   └── ui/           # shadcn/ui components (add more with shadcn CLI)
+├── hooks/            # Custom React hooks
+├── lib/              # Utilities and configuration
+│   ├── query-client.ts   # TanStack Query client setup
+│   └── utils.ts          # cn() utility (re-exports from cnfast)
+├── routes/           # File-based route pages (TanStack Router)
+│   ├── __root.tsx    # Root layout with header and footer
+│   ├── index.tsx     # Home page
+│   ├── about.tsx     # About page
+│   └── $.tsx         # Catch-all route (404)
+├── stores/           # Zustand state stores
+│   └── theme.ts      # Theme store with localStorage persistence
+├── App.tsx           # Root component (renders router outlet)
+├── App.css           # App-specific styles (empty by default)
+├── index.css         # Global styles (Tailwind v4 @theme + CSS variables)
+├── main.tsx          # Application entry point
+└── routeTree.gen.ts  # Auto-generated by TanStack Router (do not edit)
+```
+
+## Key Features
+
+### File-Based Routing
+
+Routes are defined as files in `src/routes/`. The router plugin auto-generates `routeTree.gen.ts` and enables code-splitting per route.
+
+```tsx
+// src/routes/about.tsx
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/about")({
+  component: About,
+});
+
+function About() {
+  return <h1>About</h1>;
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### Dark Mode
+
+Dark mode is handled via a Zustand store with localStorage persistence. The theme toggle in the header applies the `dark` class to `<html>`. CSS variables in `src/index.css` define light and dark token values.
+
+```tsx
+import { useTheme } from "@/hooks/use-theme";
+
+function Component() {
+  const { toggle, isDark } = useTheme();
+  return <button onClick={toggle}>{isDark ? "Light" : "Dark"}</button>;
+}
+```
+
+### State Management
+
+- **Server state**: TanStack Query with a pre-configured `QueryClient` (5-min stale time, 1 retry).
+- **Client state**: Zustand stores with optional `persist` middleware for localStorage.
+
+### UI Components
+
+[shadcn/ui](https://ui.shadcn.com) (base-nova style) backed by [@base-ui/react](https://base-ui.com) primitives. Add components with:
+
+```bash
+pnpm dlx shadcn@latest add
+```
+
+### Forms
+
+TanStack Form with the Zod adapter provides type-safe form validation:
+
+```tsx
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { z } from "zod";
+
+const schema = z.object({ email: z.string().email() });
+
+function MyForm() {
+  const form = useForm({
+    validatorAdapter: zodValidator(),
+    defaultValues: { email: "" },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+  // ...
+}
+```
+
+## Scripts
+
+| Command             | Description                         |
+| ------------------- | ----------------------------------- |
+| `npm run dev`       | Start Vite dev server               |
+| `npm run build`     | TypeScript check + production build |
+| `npm run lint`      | Run Oxlint                          |
+| `npm run lint:fix`  | Run Oxlint with auto-fix            |
+| `npm run fmt`       | Format code with Oxfmt              |
+| `npm run fmt:check` | Check formatting with Oxfmt         |
+| `npm run preview`   | Preview production build            |
+
+## Configuration
+
+- **Vite**: `vite.config.ts` — plugins (TanStack Router, Tailwind CSS v4, React, React Compiler Babel), path aliases.
+- **TypeScript**: `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json` — strict mode, bundler module resolution, path aliases.
+- **Oxlint**: `.oxlintrc.json` — React and TypeScript rules.
+- **Tailwind CSS v4**: Configured entirely in `src/index.css` via `@theme` and CSS variable definitions (no separate `tailwind.config.*` file needed).
+- **shadcn/ui**: `components.json` — base-nova style, `@` path alias.
