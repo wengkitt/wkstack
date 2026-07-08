@@ -1,10 +1,14 @@
 {
   "name": "create-wkstack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
+  "files": [
+    "dist",
+    "templates"
+  ],
   "bin": {
     "create-wkstack": "dist/index.js"
   },
@@ -12,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup src/index.ts --format esm --clean",
+    "build": "tsup --config tsup.config.ts",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint",
