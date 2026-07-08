@@ -1,6 +1,6 @@
 # react-spa
 
-A modern React SPA template for [wkstack](https://github.com/wengkitt/wkstack). Pre-configured with the TanStack ecosystem, Tailwind CSS v4, shadcn/ui, and best-in-class tooling.
+A modern React SPA template from [wkstack](https://github.com/wengkitt/wkstack). Pre-configured with the TanStack ecosystem, Tailwind CSS v4, shadcn/ui, and best-in-class tooling.
 
 ## Tech Stack
 

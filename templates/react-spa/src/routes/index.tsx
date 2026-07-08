@@ -58,8 +58,8 @@ function Index() {
           react-spa
         </h1>
         <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
-          A modern React SPA template powered by TanStack, Tailwind CSS v4, shadcn/ui, and
-          TypeScript.
+          A modern React SPA template from wkstack, powered by TanStack, Tailwind CSS v4, shadcn/ui,
+          and TypeScript.
         </p>
         <div className="flex items-center justify-center gap-3">
           <Button render={<a href="https://tanstack.com" target="_blank" rel="noreferrer" />}>
