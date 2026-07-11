@@ -1,9 +1,19 @@
 {
   "name": "create-wkstack",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
-  "keywords": [],
-  "license": "ISC",
+  "keywords": [
+    "create-wkstack",
+    "react",
+    "vite",
+    "tanstack",
+    "tailwindcss",
+    "shadcn",
+    "typescript",
+    "cli",
+    "scaffolding"
+  ],
+  "license": "MIT",
   "author": "",
   "files": [
     "dist",

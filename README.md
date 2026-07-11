@@ -49,4 +49,4 @@ A production-ready React single-page application pre-configured with:
 
 ## License
 
-ISC
+MIT
